@@ -458,11 +458,15 @@ public class LineChart: UIView {
         let y1: CGFloat = self.bounds.height - y.axis.inset
         let y2: CGFloat = y.axis.inset
         let (start, stop, step) = self.x.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
+       
+        //  MARK: CHANGE 1: SWIFT 3 LOOP
+        for i in stride(from: start, to: stop, by: step){
+            
             x1 = self.x.scale(i) + x.axis.inset
-            path.moveToPoint(CGPoint(x: x1, y: y1))
-            path.addLineToPoint(CGPoint(x: x1, y: y2))
+            path.move(to: CGPoint(x: x1, y: y1))
+            path.addLine(to: CGPoint(x: x1, y: y2))
         }
+        
         path.stroke()
     }
     
@@ -478,11 +482,15 @@ public class LineChart: UIView {
         let x2: CGFloat = self.bounds.width - x.axis.inset
         var y1: CGFloat
         let (start, stop, step) = self.y.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
+        
+        // MARK: CHANGE 2: SWIFT 3 LOOP
+        for i in stride(from: start, to: stop, by: step){
+            
             y1 = self.bounds.height - self.y.scale(i) - y.axis.inset
-            path.moveToPoint(CGPoint(x: x1, y: y1))
-            path.addLineToPoint(CGPoint(x: x2, y: y1))
+            path.move(to: CGPoint(x: x1, y: y1))
+            path.addLine(to: CGPoint(x: x2, y: y1))
         }
+        
         path.stroke()
     }
     
@@ -531,13 +539,17 @@ public class LineChart: UIView {
     private func drawYLabels() {
         var yValue: CGFloat
         let (start, stop, step) = self.y.ticks
-        for var i: CGFloat = start; i <= stop; i += step {
-            yValue = self.bounds.height - self.y.scale(i) - (y.axis.inset * 1.5)
-            let label = UILabel(frame: CGRect(x: 0, y: yValue, width: y.axis.inset, height: y.axis.inset))
-            label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)
-            label.textAlignment = .Center
-            label.text = String(Int(round(i)))
-            self.addSubview(label)
+        
+        // MARK: CHANGE 3: SWIFT 3 LOOP
+         for i in stride(from: start, to: stop, by: step){
+            
+                        yValue = self.bounds.height - self.y.scale(i) - (y.axis.inset * 1.5)
+                        let label = UILabel(frame: CGRect(x: 0, y: yValue, width: y.axis.inset, height: y.axis.inset))
+                        label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption2)
+                        label.textColor = UIColor.midnightBlueColor()
+                        label.textAlignment = .center
+                        label.text = String(Int(round(i)))
+                        self.addSubview(label)
         }
     }
     
